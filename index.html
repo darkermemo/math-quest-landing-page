@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Math Quest - Learning Math as Easy as Playing a Game</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              "brand-purple": "#6C63FF",
+              "app-bg": "#0F1224",
+              "card-surface": "#171A35",
+              "elevated-surface": "#1F2350",
+              "text-primary": "#FFFFFF",
+              "text-secondary": "#C7C9E2",
+              "text-muted": "#8A8DB4",
+              "success-green": "#2ED47A",
+              "energy-yellow": "#F9C74F",
+              "streak-orange": "#F9844A",
+              "heart-red": "#F25F5C",
+              "border-divider": "#2A2E5E",
+              "icon-default": "#9AA0FF",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
+      body {
+        font-family: "Inter", sans-serif;
+      }
+
+      /* Animated background elements */
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-20px) rotate(5deg);
+        }
+      }
+
+      @keyframes floatReverse {
+        0%,
+        100% {
+          transform: translateY(0px) rotate(0deg);
+        }
+        50% {
+          transform: translateY(20px) rotate(-5deg);
+        }
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 0.4;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.6;
+          transform: scale(1.1);
+        }
+      }
+
+      .float-animation {
+        animation: float 6s ease-in-out infinite;
+      }
+
+      .float-reverse {
+        animation: floatReverse 8s ease-in-out infinite;
+      }
+
+      .pulse-animation {
+        animation: pulse 4s ease-in-out infinite;
+      }
+
+      @keyframes shake {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        25% {
+          transform: translateX(-5px);
+        }
+        75% {
+          transform: translateX(5px);
+        }
+      }
+
+      @keyframes glow {
+        0%,
+        100% {
+          box-shadow: 0 0 10px rgba(108, 99, 255, 0.3);
+          transform: scale(1);
+        }
+        50% {
+          box-shadow: 0 0 20px rgba(108, 99, 255, 0.6);
+          transform: scale(1.05);
+        }
+      }
+
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateX(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      @keyframes rotate {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes arrowFlow {
+        0% {
+          opacity: 0.3;
+          transform: translateX(-10px);
+        }
+        50% {
+          opacity: 1;
+          transform: translateX(0);
+        }
+        100% {
+          opacity: 0.3;
+          transform: translateX(10px);
+        }
+      }
+
+      @keyframes iconPulse {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        50% {
+          transform: scale(1.15);
+          opacity: 0.8;
+        }
+      }
+
+      @keyframes techFloat {
+        0%,
+        100% {
+          transform: translateY(0) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-15px) rotate(180deg);
+        }
+      }
+
+      .shake-animation {
+        animation: shake 2s ease-in-out infinite;
+      }
+
+      .glow-animation {
+        animation: glow 3s ease-in-out infinite;
+      }
+
+      .slide-in {
+        animation: slideIn 0.6s ease-out;
+      }
+
+      .bounce-animation {
+        animation: bounce 2s ease-in-out infinite;
+      }
+
+      .rotate-slow {
+        animation: rotate 20s linear infinite;
+      }
+
+      .arrow-flow {
+        animation: arrowFlow 2s ease-in-out infinite;
+      }
+
+      .icon-pulse {
+        animation: iconPulse 2s ease-in-out infinite;
+      }
+
+      .tech-float {
+        animation: techFloat 6s ease-in-out infinite;
+      }
+
+      /* Grid pattern overlay */
+      .grid-pattern {
+        background-image: linear-gradient(rgba(108, 99, 255, 0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(108, 99, 255, 0.03) 1px, transparent 1px);
+        background-size: 50px 50px;
+      }
+
+      /* Decorative math symbols */
+      .math-symbol {
+        position: absolute;
+        color: rgba(108, 99, 255, 0.1);
+        font-size: 8rem;
+        font-weight: bold;
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body class="bg-app-bg text-text-primary antialiased">
+    <!-- Hero Section -->
+    <section
+      class="min-h-screen flex items-center justify-center px-4 py-20 relative overflow-hidden"
+    >
+      <!-- Grid pattern overlay -->
+      <div class="absolute inset-0 grid-pattern"></div>
+
+      <!-- Layered gradient effects -->
+      <div
+        class="absolute inset-0 bg-gradient-to-br from-brand-purple/15 via-transparent to-transparent"
+      ></div>
+      <div
+        class="absolute inset-0 bg-gradient-to-tl from-energy-yellow/5 via-transparent to-transparent"
+      ></div>
+      <div
+        class="absolute inset-0 bg-gradient-to-r from-transparent via-success-green/5 to-transparent"
+      ></div>
+
+      <!-- Floating geometric shapes -->
+      <div
+        class="absolute top-20 left-10 w-72 h-72 bg-brand-purple/10 rounded-full blur-3xl float-animation"
+      ></div>
+      <div
+        class="absolute bottom-20 right-10 w-96 h-96 bg-energy-yellow/10 rounded-full blur-3xl float-reverse"
+      ></div>
+      <div
+        class="absolute top-1/2 left-1/4 w-64 h-64 bg-success-green/10 rounded-full blur-3xl pulse-animation"
+      ></div>
+
+      <!-- Decorative circles -->
+      <div
+        class="absolute top-32 right-20 w-32 h-32 border-2 border-brand-purple/20 rounded-full float-animation"
+      ></div>
+      <div
+        class="absolute bottom-32 left-20 w-24 h-24 border-2 border-energy-yellow/20 rounded-full float-reverse"
+      ></div>
+      <div
+        class="absolute top-1/3 right-1/3 w-16 h-16 border-2 border-success-green/20 rounded-full pulse-animation"
+      ></div>
+
+      <!-- Math symbols as decorative elements -->
+      <div class="math-symbol top-10 left-10 float-animation">+</div>
+      <div class="math-symbol top-20 right-20 float-reverse">×</div>
+      <div class="math-symbol bottom-20 left-1/4 float-animation">÷</div>
+      <div class="math-symbol bottom-10 right-1/3 float-reverse">=</div>
+      <div class="math-symbol top-1/2 right-10 pulse-animation">π</div>
+
+      <!-- Floating number badges (app-like UI elements) -->
+      <div
+        class="absolute top-40 left-1/4 w-20 h-20 bg-elevated-surface border-2 border-brand-purple/30 rounded-2xl flex items-center justify-center text-2xl font-bold text-brand-purple shadow-lg float-animation"
+      >
+        <span>5</span>
+      </div>
+      <div
+        class="absolute bottom-40 right-1/4 w-20 h-20 bg-elevated-surface border-2 border-energy-yellow/30 rounded-2xl flex items-center justify-center text-2xl font-bold text-energy-yellow shadow-lg float-reverse"
+      >
+        <span>10</span>
+      </div>
+      <div
+        class="absolute top-1/3 left-1/2 w-16 h-16 bg-elevated-surface border-2 border-success-green/30 rounded-xl flex items-center justify-center text-xl font-bold text-success-green shadow-lg pulse-animation"
+      >
+        <span>∞</span>
+      </div>
+
+      <!-- XP/Level indicators (gamification elements) -->
+      <div
+        class="absolute top-60 right-32 bg-card-surface/80 backdrop-blur-sm border border-brand-purple/30 rounded-lg px-4 py-2 shadow-xl float-animation"
+      >
+        <div class="flex items-center space-x-2">
+          <span class="text-energy-yellow text-lg">⭐</span>
+          <span class="text-text-secondary text-sm font-semibold">Level 5</span>
+        </div>
+      </div>
+      <div
+        class="absolute bottom-60 left-32 bg-card-surface/80 backdrop-blur-sm border border-success-green/30 rounded-lg px-4 py-2 shadow-xl float-reverse"
+      >
+        <div class="flex items-center space-x-2">
+          <span class="text-streak-orange text-lg">🔥</span>
+          <span class="text-text-secondary text-sm font-semibold">7 Day Streak</span>
+        </div>
+      </div>
+
+      <!-- Main content -->
+      <div class="max-w-6xl mx-auto text-center relative z-10">
+        <h1
+          class="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-text-primary via-brand-purple to-text-primary bg-clip-text text-transparent drop-shadow-lg"
+        >
+          Math Quest
+        </h1>
+        <p class="text-2xl md:text-4xl font-semibold mb-6 text-text-secondary">
+          Learning math as easy as playing a game
+        </p>
+        <p class="text-lg md:text-xl text-text-muted max-w-3xl mx-auto mb-10 leading-relaxed">
+          Transform mathematics education through gamification. Students learn, practice, and master
+          math concepts by completing quests, earning rewards, and leveling up—making every lesson
+          an adventure.
+        </p>
+        <a
+          href="#contact"
+          class="inline-block bg-brand-purple hover:bg-brand-purple/90 text-white font-semibold px-8 py-4 rounded-lg text-lg transition-all duration-300 transform hover:scale-105 shadow-lg shadow-brand-purple/30"
+        >
+          Get in Touch
+        </a>
+      </div>
+
+      <!-- Bottom wave separator -->
+      <div
+        class="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-app-bg to-transparent"
+      ></div>
+    </section>
+
+    <!-- Problem → Solution Section -->
+    <section class="py-20 px-4 relative overflow-hidden">
+      <!-- Background decorative elements -->
+      <div
+        class="absolute top-10 left-10 w-40 h-40 bg-heart-red/5 rounded-full blur-2xl pulse-animation"
+      ></div>
+      <div
+        class="absolute bottom-10 right-10 w-40 h-40 bg-success-green/5 rounded-full blur-2xl pulse-animation"
+        style="animation-delay: 1s"
+      ></div>
+
+      <div class="max-w-6xl mx-auto relative z-10">
+        <h2 class="text-4xl md:text-5xl font-bold text-center mb-16">
+          From <span class="text-heart-red">Struggle</span> to
+          <span class="text-success-green">Success</span>
+        </h2>
+
+        <div class="grid md:grid-cols-2 gap-12 items-center mb-16">
+          <!-- Problem -->
+          <div class="bg-card-surface rounded-2xl p-8 border border-border-divider relative">
+            <!-- Floating problem indicators -->
+            <div
+              class="absolute -top-4 -right-4 w-12 h-12 bg-heart-red/20 rounded-full flex items-center justify-center shake-animation"
+            >
+              <span class="text-heart-red text-xl">⚠️</span>
+            </div>
+            <div class="text-5xl mb-4 shake-animation" style="animation-delay: 0.5s">😓</div>
+            <h3 class="text-2xl font-bold mb-4 text-heart-red">The Problem</h3>
+            <ul class="space-y-3 text-text-secondary">
+              <li class="flex items-start slide-in" style="animation-delay: 0.1s">
+                <span class="text-heart-red mr-3 text-xl">×</span>
+                <span>Math feels boring and repetitive</span>
+              </li>
+              <li class="flex items-start slide-in" style="animation-delay: 0.2s">
+                <span class="text-heart-red mr-3 text-xl">×</span>
+                <span>Lack of motivation and engagement</span>
+              </li>
+              <li class="flex items-start slide-in" style="animation-delay: 0.3s">
+                <span class="text-heart-red mr-3 text-xl">×</span>
+                <span>No clear progress tracking</span>
+              </li>
+              <li class="flex items-start slide-in" style="animation-delay: 0.4s">
+                <span class="text-heart-red mr-3 text-xl">×</span>
+                <span>Traditional methods don't resonate with digital natives</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Solution -->
+          <div
+            class="bg-elevated-surface rounded-2xl p-8 border border-brand-purple/30 relative glow-animation"
+          >
+            <!-- Floating success indicators -->
+            <div
+              class="absolute -top-4 -right-4 w-12 h-12 bg-success-green/20 rounded-full flex items-center justify-center bounce-animation"
+            >
+              <span class="text-success-green text-xl">✨</span>
+            </div>
+            <div class="text-5xl mb-4 bounce-animation" style="animation-delay: 0.3s">🎮</div>
+            <h3 class="text-2xl font-bold mb-4 text-success-green">The Solution</h3>
+            <ul class="space-y-3 text-text-secondary">
+              <li class="flex items-start slide-in" style="animation-delay: 0.1s">
+                <span class="text-success-green mr-3 text-xl icon-pulse">✓</span>
+                <span
+                  ><strong class="text-text-primary">Games:</strong> Interactive challenges that
+                  make learning fun</span
+                >
+              </li>
+              <li class="flex items-start slide-in" style="animation-delay: 0.2s">
+                <span
+                  class="text-success-green mr-3 text-xl icon-pulse"
+                  style="animation-delay: 0.2s"
+                  >✓</span
+                >
+                <span
+                  ><strong class="text-text-primary">Levels:</strong> Progressive difficulty that
+                  builds confidence</span
+                >
+              </li>
+              <li class="flex items-start slide-in" style="animation-delay: 0.3s">
+                <span
+                  class="text-success-green mr-3 text-xl icon-pulse"
+                  style="animation-delay: 0.4s"
+                  >✓</span
+                >
+                <span
+                  ><strong class="text-text-primary">Quests:</strong> Story-driven missions that
+                  contextualize learning</span
+                >
+              </li>
+              <li class="flex items-start slide-in" style="animation-delay: 0.4s">
+                <span
+                  class="text-success-green mr-3 text-xl icon-pulse"
+                  style="animation-delay: 0.6s"
+                  >✓</span
+                >
+                <span
+                  ><strong class="text-text-primary">Rewards:</strong> XP, badges, and achievements
+                  that motivate</span
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Who Is This For? Section -->
+    <section class="py-20 px-4 bg-card-surface/50 relative overflow-hidden">
+      <!-- Floating educational icons -->
+      <div class="absolute top-20 left-10 text-6xl opacity-10 float-animation">📚</div>
+      <div class="absolute bottom-20 right-10 text-6xl opacity-10 float-reverse">🎯</div>
+      <div class="absolute top-1/2 right-20 text-5xl opacity-10 pulse-animation">💡</div>
+
+      <div class="max-w-6xl mx-auto relative z-10">
+        <h2 class="text-4xl md:text-5xl font-bold text-center mb-4">Who Is This For?</h2>
+        <p class="text-xl text-text-muted text-center mb-16 max-w-2xl mx-auto">
+          Math Quest is designed for everyone in the educational ecosystem
+        </p>
+
+        <div class="grid md:grid-cols-3 gap-8">
+          <!-- Students Card -->
+          <div
+            class="bg-card-surface rounded-2xl p-8 border border-border-divider hover:border-brand-purple/50 transition-all duration-300 transform hover:scale-105 relative"
+          >
+            <!-- Floating student badge -->
+            <div
+              class="absolute -top-3 -right-3 w-10 h-10 bg-energy-yellow/30 rounded-full flex items-center justify-center bounce-animation"
+            >
+              <span class="text-energy-yellow text-sm">⭐</span>
+            </div>
+            <div class="text-6xl mb-6 text-center float-animation">🎓</div>
+            <h3 class="text-2xl font-bold mb-4 text-center">Students</h3>
+            <p class="text-text-secondary text-center leading-relaxed">
+              Turn math homework into an exciting adventure. Level up, earn rewards, and compete
+              with friends while mastering concepts at your own pace.
+            </p>
+            <ul class="mt-6 space-y-2 text-text-muted text-sm">
+              <li class="flex items-center">
+                <span class="text-brand-purple mr-2 icon-pulse">→</span>
+                <span>Learn through interactive games</span>
+              </li>
+              <li class="flex items-center">
+                <span class="text-brand-purple mr-2 icon-pulse" style="animation-delay: 0.2s"
+                  >→</span
+                >
+                <span>Track your progress visually</span>
+              </li>
+              <li class="flex items-center">
+                <span class="text-brand-purple mr-2 icon-pulse" style="animation-delay: 0.4s"
+                  >→</span
+                >
+                <span>Build streaks and achievements</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Teachers Card -->
+          <div
+            class="bg-elevated-surface rounded-2xl p-8 border border-border-divider hover:border-brand-purple/50 transition-all duration-300 transform hover:scale-105 relative"
+          >
+            <!-- Floating teacher badge -->
+            <div
+              class="absolute -top-3 -right-3 w-10 h-10 bg-success-green/30 rounded-full flex items-center justify-center bounce-animation"
+              style="animation-delay: 0.3s"
+            >
+              <span class="text-success-green text-sm">📊</span>
+            </div>
+            <div class="text-6xl mb-6 text-center float-reverse">👩‍🏫</div>
+            <h3 class="text-2xl font-bold mb-4 text-center">Teachers</h3>
+            <p class="text-text-secondary text-center leading-relaxed">
+              Empower your classroom with gamified learning. Monitor student progress, assign
+              quests, and watch engagement soar.
+            </p>
+            <ul class="mt-6 space-y-2 text-text-muted text-sm">
+              <li class="flex items-center">
+                <span class="text-brand-purple mr-2 icon-pulse" style="animation-delay: 0.1s"
+                  >→</span
+                >
+                <span>Real-time progress insights</span>
+              </li>
+              <li class="flex items-center">
+                <span class="text-brand-purple mr-2 icon-pulse" style="animation-delay: 0.3s"
+                  >→</span
+                >
+                <span>Curriculum-aligned content</span>
+              </li>
+              <li class="flex items-center">
+                <span class="text-brand-purple mr-2 icon-pulse" style="animation-delay: 0.5s"
+                  >→</span
+                >
+                <span>Easy assignment management</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Schools Card -->
+          <div
+            class="bg-card-surface rounded-2xl p-8 border border-border-divider hover:border-brand-purple/50 transition-all duration-300 transform hover:scale-105 relative"
+          >
+            <!-- Floating school badge -->
+            <div
+              class="absolute -top-3 -right-3 w-10 h-10 bg-brand-purple/30 rounded-full flex items-center justify-center bounce-animation"
+              style="animation-delay: 0.6s"
+            >
+              <span class="text-brand-purple text-sm">🏆</span>
+            </div>
+            <div class="text-6xl mb-6 text-center pulse-animation">🏫</div>
+            <h3 class="text-2xl font-bold mb-4 text-center">Schools</h3>
+            <p class="text-text-secondary text-center leading-relaxed">
+              Transform your math curriculum district-wide. Comprehensive analytics, grade-based
+              progression, and seamless integration with existing systems.
+            </p>
+            <ul class="mt-6 space-y-2 text-text-muted text-sm">
+              <li class="flex items-center">
+                <span class="text-brand-purple mr-2 icon-pulse" style="animation-delay: 0.2s"
+                  >→</span
+                >
+                <span>School-wide analytics dashboard</span>
+              </li>
+              <li class="flex items-center">
+                <span class="text-brand-purple mr-2 icon-pulse" style="animation-delay: 0.4s"
+                  >→</span
+                >
+                <span>Scalable for all grade levels</span>
+              </li>
+              <li class="flex items-center">
+                <span class="text-brand-purple mr-2 icon-pulse" style="animation-delay: 0.6s"
+                  >→</span
+                >
+                <span>Administrative oversight tools</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="py-20 px-4 relative overflow-hidden">
+      <!-- Background flow indicators -->
+      <div
+        class="absolute top-1/2 left-0 w-full h-1 bg-gradient-to-r from-transparent via-brand-purple/20 to-transparent hidden md:block"
+      ></div>
+
+      <div class="max-w-6xl mx-auto relative z-10">
+        <h2 class="text-4xl md:text-5xl font-bold text-center mb-4">How It Works</h2>
+        <p class="text-xl text-text-muted text-center mb-16 max-w-2xl mx-auto">
+          A simple, intuitive flow that guides students from sign-in to mastery
+        </p>
+
+        <div class="relative">
+          <!-- Flow Steps -->
+          <div class="grid md:grid-cols-4 gap-6 relative">
+            <!-- Step 1: Sign In -->
+            <div
+              class="bg-card-surface rounded-xl p-6 border border-border-divider text-center relative z-10 hover:border-brand-purple/50 transition-all duration-300"
+            >
+              <div
+                class="w-16 h-16 bg-brand-purple/20 rounded-full flex items-center justify-center mx-auto mb-4 icon-pulse"
+              >
+                <span class="text-2xl">🔐</span>
+              </div>
+              <div
+                class="w-8 h-8 bg-brand-purple rounded-full flex items-center justify-center mx-auto mb-4 text-sm font-bold bounce-animation"
+              >
+                1
+              </div>
+              <h3 class="text-xl font-bold mb-2">Sign In</h3>
+              <p class="text-text-muted text-sm">Quick access with secure authentication</p>
+            </div>
+
+            <!-- Arrow -->
+            <div
+              class="hidden md:block absolute top-1/2 left-1/4 transform -translate-y-1/2 -translate-x-1/2 z-0 arrow-flow"
+            >
+              <svg
+                class="w-12 h-12 text-brand-purple"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M13 7l5 5m0 0l-5 5m5-5H6"
+                ></path>
+              </svg>
+            </div>
+
+            <!-- Step 2: Courses -->
+            <div
+              class="bg-card-surface rounded-xl p-6 border border-border-divider text-center relative z-10 hover:border-brand-purple/50 transition-all duration-300"
+            >
+              <div
+                class="w-16 h-16 bg-brand-purple/20 rounded-full flex items-center justify-center mx-auto mb-4 icon-pulse"
+                style="animation-delay: 0.2s"
+              >
+                <span class="text-2xl">📚</span>
+              </div>
+              <div
+                class="w-8 h-8 bg-brand-purple rounded-full flex items-center justify-center mx-auto mb-4 text-sm font-bold bounce-animation"
+                style="animation-delay: 0.2s"
+              >
+                2
+              </div>
+              <h3 class="text-xl font-bold mb-2">Courses</h3>
+              <p class="text-text-muted text-sm">Browse grade-appropriate math courses</p>
+            </div>
+
+            <!-- Arrow -->
+            <div
+              class="hidden md:block absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 z-0 arrow-flow"
+              style="animation-delay: 0.3s"
+            >
+              <svg
+                class="w-12 h-12 text-brand-purple"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M13 7l5 5m0 0l-5 5m5-5H6"
+                ></path>
+              </svg>
+            </div>
+
+            <!-- Step 3: Chapters -->
+            <div
+              class="bg-card-surface rounded-xl p-6 border border-border-divider text-center relative z-10 hover:border-brand-purple/50 transition-all duration-300"
+            >
+              <div
+                class="w-16 h-16 bg-brand-purple/20 rounded-full flex items-center justify-center mx-auto mb-4 icon-pulse"
+                style="animation-delay: 0.4s"
+              >
+                <span class="text-2xl">📖</span>
+              </div>
+              <div
+                class="w-8 h-8 bg-brand-purple rounded-full flex items-center justify-center mx-auto mb-4 text-sm font-bold bounce-animation"
+                style="animation-delay: 0.4s"
+              >
+                3
+              </div>
+              <h3 class="text-xl font-bold mb-2">Chapters</h3>
+              <p class="text-text-muted text-sm">Select specific topics to master</p>
+            </div>
+
+            <!-- Arrow -->
+            <div
+              class="hidden md:block absolute top-1/2 left-3/4 transform -translate-y-1/2 -translate-x-1/2 z-0 arrow-flow"
+              style="animation-delay: 0.6s"
+            >
+              <svg
+                class="w-12 h-12 text-brand-purple"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M13 7l5 5m0 0l-5 5m5-5H6"
+                ></path>
+              </svg>
+            </div>
+
+            <!-- Step 4: Play & Learn -->
+            <div
+              class="bg-elevated-surface rounded-xl p-6 border border-brand-purple/50 text-center relative z-10 hover:border-brand-purple transition-all duration-300 glow-animation"
+            >
+              <div
+                class="w-16 h-16 bg-brand-purple/30 rounded-full flex items-center justify-center mx-auto mb-4 icon-pulse"
+                style="animation-delay: 0.6s"
+              >
+                <span class="text-2xl">🎮</span>
+              </div>
+              <div
+                class="w-8 h-8 bg-brand-purple rounded-full flex items-center justify-center mx-auto mb-4 text-sm font-bold bounce-animation"
+                style="animation-delay: 0.6s"
+              >
+                4
+              </div>
+              <h3 class="text-xl font-bold mb-2">Play & Learn</h3>
+              <p class="text-text-muted text-sm">Engage with interactive games and earn rewards</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Key Features Section -->
+    <section class="py-20 px-4 bg-card-surface/50 relative overflow-hidden">
+      <!-- Floating feature indicators -->
+      <div
+        class="absolute top-10 right-20 w-24 h-24 bg-energy-yellow/5 rounded-full blur-2xl pulse-animation"
+      ></div>
+      <div
+        class="absolute bottom-10 left-20 w-24 h-24 bg-brand-purple/5 rounded-full blur-2xl pulse-animation"
+        style="animation-delay: 1s"
+      ></div>
+
+      <div class="max-w-6xl mx-auto relative z-10">
+        <h2 class="text-4xl md:text-5xl font-bold text-center mb-4">Key Features</h2>
+        <p class="text-xl text-text-muted text-center mb-16 max-w-2xl mx-auto">
+          Everything you need for engaging, effective math education
+        </p>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Feature 1: Gamified Learning -->
+          <div
+            class="bg-card-surface rounded-xl p-6 border border-border-divider hover:border-energy-yellow/30 transition-all duration-300 transform hover:scale-105"
+          >
+            <div class="flex items-center mb-4">
+              <div
+                class="w-12 h-12 bg-energy-yellow/20 rounded-lg flex items-center justify-center mr-4 icon-pulse"
+              >
+                <span class="text-2xl">⭐</span>
+              </div>
+              <h3 class="text-xl font-bold">Gamified Learning</h3>
+            </div>
+            <p class="text-text-secondary text-sm leading-relaxed">
+              Earn XP, level up, and maintain streaks. Every problem solved is a step toward your
+              next achievement.
+            </p>
+          </div>
+
+          <!-- Feature 2: Grade-Based Curriculum -->
+          <div
+            class="bg-card-surface rounded-xl p-6 border border-border-divider hover:border-success-green/30 transition-all duration-300 transform hover:scale-105"
+          >
+            <div class="flex items-center mb-4">
+              <div
+                class="w-12 h-12 bg-success-green/20 rounded-lg flex items-center justify-center mr-4 icon-pulse"
+                style="animation-delay: 0.2s"
+              >
+                <span class="text-2xl">📊</span>
+              </div>
+              <h3 class="text-xl font-bold">Grade-Based Curriculum</h3>
+            </div>
+            <p class="text-text-secondary text-sm leading-relaxed">
+              Content aligned with standard curricula, organized by grade level for seamless
+              integration.
+            </p>
+          </div>
+
+          <!-- Feature 3: Adaptive Learning -->
+          <div
+            class="bg-card-surface rounded-xl p-6 border border-border-divider hover:border-brand-purple/30 transition-all duration-300 transform hover:scale-105"
+          >
+            <div class="flex items-center mb-4">
+              <div
+                class="w-12 h-12 bg-brand-purple/20 rounded-lg flex items-center justify-center mr-4 icon-pulse"
+                style="animation-delay: 0.4s"
+              >
+                <span class="text-2xl">🧠</span>
+              </div>
+              <h3 class="text-xl font-bold">Adaptive Learning</h3>
+            </div>
+            <p class="text-text-secondary text-sm leading-relaxed">
+              Personalized difficulty adjustment based on performance, ensuring optimal challenge
+              levels.
+            </p>
+          </div>
+
+          <!-- Feature 4: Progress Tracking -->
+          <div
+            class="bg-card-surface rounded-xl p-6 border border-border-divider hover:border-streak-orange/30 transition-all duration-300 transform hover:scale-105"
+          >
+            <div class="flex items-center mb-4">
+              <div
+                class="w-12 h-12 bg-streak-orange/20 rounded-lg flex items-center justify-center mr-4 icon-pulse"
+                style="animation-delay: 0.6s"
+              >
+                <span class="text-2xl">📈</span>
+              </div>
+              <h3 class="text-xl font-bold">Progress Tracking</h3>
+            </div>
+            <p class="text-text-secondary text-sm leading-relaxed">
+              Visual dashboards show mastery, completion rates, and areas for improvement at a
+              glance.
+            </p>
+          </div>
+
+          <!-- Feature 5: Boss Battles -->
+          <div
+            class="bg-card-surface rounded-xl p-6 border border-border-divider hover:border-heart-red/30 transition-all duration-300 transform hover:scale-105"
+          >
+            <div class="flex items-center mb-4">
+              <div
+                class="w-12 h-12 bg-heart-red/20 rounded-lg flex items-center justify-center mr-4 icon-pulse"
+                style="animation-delay: 0.8s"
+              >
+                <span class="text-2xl">⚔️</span>
+              </div>
+              <h3 class="text-xl font-bold">Boss Battles & Challenges</h3>
+            </div>
+            <p class="text-text-secondary text-sm leading-relaxed">
+              Epic challenges and boss battles test mastery and unlock special rewards and
+              achievements.
+            </p>
+          </div>
+
+          <!-- Feature 6: Social Learning -->
+          <div
+            class="bg-card-surface rounded-xl p-6 border border-border-divider hover:border-icon-default/30 transition-all duration-300 transform hover:scale-105"
+          >
+            <div class="flex items-center mb-4">
+              <div
+                class="w-12 h-12 bg-icon-default/20 rounded-lg flex items-center justify-center mr-4 icon-pulse"
+                style="animation-delay: 1s"
+              >
+                <span class="text-2xl">👥</span>
+              </div>
+              <h3 class="text-xl font-bold">Social Learning</h3>
+            </div>
+            <p class="text-text-secondary text-sm leading-relaxed">
+              Compete with classmates, share achievements, and learn together in a supportive
+              community.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Technology & Trust Section -->
+    <section class="py-20 px-4 relative overflow-hidden">
+      <!-- Tech-themed background elements -->
+      <div class="absolute top-20 left-10 text-5xl opacity-5 tech-float">⚙️</div>
+      <div
+        class="absolute bottom-20 right-10 text-5xl opacity-5 tech-float"
+        style="animation-delay: 2s"
+      >
+        🔧
+      </div>
+      <div class="absolute top-1/2 left-1/4 text-4xl opacity-5 rotate-slow">💻</div>
+
+      <div class="max-w-6xl mx-auto relative z-10">
+        <h2 class="text-4xl md:text-5xl font-bold text-center mb-4">Built for Modern Education</h2>
+        <p class="text-xl text-text-muted text-center mb-16 max-w-2xl mx-auto">
+          Powered by cutting-edge technology, designed for schools and education systems
+        </p>
+
+        <div class="grid md:grid-cols-3 gap-8">
+          <!-- AI-Powered -->
+          <div
+            class="bg-elevated-surface rounded-xl p-8 border border-border-divider text-center hover:border-brand-purple/30 transition-all duration-300 transform hover:scale-105 relative"
+          >
+            <!-- Floating AI indicator -->
+            <div
+              class="absolute -top-2 -right-2 w-8 h-8 bg-brand-purple/20 rounded-full flex items-center justify-center pulse-animation"
+            >
+              <span class="text-brand-purple text-xs">AI</span>
+            </div>
+            <div class="text-5xl mb-4 tech-float">🤖</div>
+            <h3 class="text-xl font-bold mb-3">AI-Powered Learning</h3>
+            <p class="text-text-secondary text-sm leading-relaxed">
+              Intelligent algorithms adapt to each student's learning style and pace, providing
+              personalized recommendations.
+            </p>
+          </div>
+
+          <!-- Mobile-First -->
+          <div
+            class="bg-elevated-surface rounded-xl p-8 border border-border-divider text-center hover:border-success-green/30 transition-all duration-300 transform hover:scale-105 relative"
+          >
+            <!-- Floating mobile indicator -->
+            <div
+              class="absolute -top-2 -right-2 w-8 h-8 bg-success-green/20 rounded-full flex items-center justify-center pulse-animation"
+              style="animation-delay: 0.3s"
+            >
+              <span class="text-success-green text-xs">📲</span>
+            </div>
+            <div class="text-5xl mb-4 tech-float" style="animation-delay: 1s">📱</div>
+            <h3 class="text-xl font-bold mb-3">Mobile-First Experience</h3>
+            <p class="text-text-secondary text-sm leading-relaxed">
+              Access Math Quest anywhere, anytime. Optimized for tablets, phones, and desktops with
+              seamless synchronization.
+            </p>
+          </div>
+
+          <!-- School Integration -->
+          <div
+            class="bg-elevated-surface rounded-xl p-8 border border-border-divider text-center hover:border-energy-yellow/30 transition-all duration-300 transform hover:scale-105 relative"
+          >
+            <!-- Floating integration indicator -->
+            <div
+              class="absolute -top-2 -right-2 w-8 h-8 bg-energy-yellow/20 rounded-full flex items-center justify-center pulse-animation"
+              style="animation-delay: 0.6s"
+            >
+              <span class="text-energy-yellow text-xs">✓</span>
+            </div>
+            <div class="text-5xl mb-4 tech-float" style="animation-delay: 2s">🔗</div>
+            <h3 class="text-xl font-bold mb-3">Built for Schools</h3>
+            <p class="text-text-secondary text-sm leading-relaxed">
+              Designed with education systems in mind. Easy integration, comprehensive analytics,
+              and administrative controls.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 px-4 bg-card-surface/50 relative overflow-hidden">
+      <!-- Communication-themed background elements -->
+      <div class="absolute top-10 left-10 text-4xl opacity-5 float-animation">💬</div>
+      <div class="absolute bottom-10 right-10 text-4xl opacity-5 float-reverse">📧</div>
+      <div class="absolute top-1/2 left-1/3 text-3xl opacity-5 pulse-animation">✉️</div>
+
+      <div class="max-w-4xl mx-auto relative z-10">
+        <h2 class="text-4xl md:text-5xl font-bold text-center mb-4">Get in Touch</h2>
+        <p class="text-xl text-text-muted text-center mb-12 max-w-2xl mx-auto">
+          Ready to transform math education? Let's discuss how Math Quest can benefit your school or
+          organization.
+        </p>
+
+        <div
+          class="bg-elevated-surface rounded-2xl p-8 md:p-12 border border-border-divider hover:border-brand-purple/30 transition-all duration-300 relative"
+        >
+          <!-- Floating contact indicator -->
+          <div
+            class="absolute -top-3 -right-3 w-12 h-12 bg-brand-purple/20 rounded-full flex items-center justify-center pulse-animation"
+          >
+            <span class="text-brand-purple text-lg">📞</span>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-8 mb-8">
+            <!-- Email -->
+            <div
+              class="flex items-start hover:transform hover:scale-105 transition-all duration-300"
+            >
+              <div
+                class="w-12 h-12 bg-brand-purple/20 rounded-lg flex items-center justify-center mr-4 flex-shrink-0 icon-pulse"
+              >
+                <svg
+                  class="w-6 h-6 text-brand-purple"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  ></path>
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-lg font-semibold mb-1">Email</h3>
+                <a
+                  href="mailto:questailearning@gmail.com"
+                  class="text-brand-purple hover:text-brand-purple/80 transition-colors"
+                >
+                  questailearning@gmail.com
+                </a>
+              </div>
+            </div>
+
+            <!-- Email  -->
+            <div
+              class="flex items-start hover:transform hover:scale-105 transition-all duration-300"
+            >
+              <div
+                class="w-12 h-12 bg-brand-purple/20 rounded-lg flex items-center justify-center mr-4 flex-shrink-0 icon-pulse"
+              >
+                <svg
+                  class="w-6 h-6 text-brand-purple"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  ></path>
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-lg font-semibold mb-1">Email</h3>
+                <a
+                  href="mailto:yassermemo@gmail.com"
+                  class="text-brand-purple hover:text-brand-purple/80 transition-colors"
+                >
+                  yassermemo@gmail.com
+                </a>
+              </div>
+            </div>
+
+            <!-- Phone (Optional) -->
+            <!-- <div
+              class="flex items-start hover:transform hover:scale-105 transition-all duration-300"
+            >
+              <div
+                class="w-12 h-12 bg-brand-purple/20 rounded-lg flex items-center justify-center mr-4 flex-shrink-0 icon-pulse"
+                style="animation-delay: 0.3s"
+              >
+                <svg
+                  class="w-6 h-6 text-brand-purple"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                  ></path>
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-lg font-semibold mb-1">Phone</h3>
+                <a
+                  href="tel:+1234567890"
+                  class="text-text-secondary hover:text-brand-purple transition-colors"
+                >
+                  +1 (234) 567-890
+                </a>
+              </div>
+            </div> -->
+          </div>
+
+          <!-- CTA Button -->
+          <!-- <div class="text-center">
+            <a
+              href="mailto:contact@mathquest.com"
+              class="inline-block bg-brand-purple hover:bg-brand-purple/90 text-white font-semibold px-8 py-4 rounded-lg text-lg transition-all duration-300 transform hover:scale-105 shadow-lg shadow-brand-purple/30 bounce-animation"
+            >
+              Contact Us Now
+            </a>
+          </div> -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 px-4 border-t border-border-divider">
+      <div class="max-w-6xl mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+          <div class="mb-6 md:mb-0 text-center md:text-left">
+            <h3 class="text-2xl font-bold mb-2">Math Quest</h3>
+            <p class="text-text-muted text-sm">Learning math as easy as playing a game</p>
+          </div>
+          <div class="text-text-muted text-sm text-center md:text-right">
+            <p>&copy; 2024 Math Quest. All rights reserved.</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
